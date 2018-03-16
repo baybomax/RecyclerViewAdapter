@@ -113,11 +113,11 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
     private var mFootAndEmptyEnable = false
     private var mEmptyLayout: FrameLayout? = null
 
-    protected var mLayoutResId: Int = 0
-    protected var mContext: Context? = null
-    protected var mLayoutInflater: LayoutInflater? = null
+    var mLayoutResId: Int = 0
+    var mContext: Context? = null
+    var mLayoutInflater: LayoutInflater? = null
 
-    protected var mRecyclerView: RecyclerView? = null
+    var mRecyclerView: RecyclerView? = null
         private set
 
     private fun checkRecyclerView() {
@@ -898,7 +898,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
         return createBaseViewHolder(parent, layoutId)
     }
 
-    protected fun createBaseViewHolder(parent: ViewGroup, layoutResId: Int): K {
+    protected open fun createBaseViewHolder(parent: ViewGroup, layoutResId: Int): K {
         return createBaseViewHolder(getItemView(layoutResId, parent))
     }
 
