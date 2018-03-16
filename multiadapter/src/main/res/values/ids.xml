@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="base_adapter_view_holder_support" type="id"/>
+    <item name="base_adapter_swiping_support" type="id"/>
+    <item name="base_adapter_dragging_support" type="id"/>
+    <item name="base_adapter_data_binding_support" type="id"/>
+</resources>

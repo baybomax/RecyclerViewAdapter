@@ -1,2 +1,2 @@
 # MultiRecycleViewAdapter
-A recycleView adapter repository includes animation/draggable/section/multi item .etc multi type adapter to match or suit to recycle view.
+A recycleView XAdapter repository includes animation/draggable/section/multi item .etc multi type XAdapter to match or suit to recycle view.
