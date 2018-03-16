@@ -1,7 +1,7 @@
 package com.android.db.multirecycleviewadapter.listener
 
 import android.view.View
-import android.widget.SimpleAdapter
+import com.android.db.multirecycleviewadapter.BaseAdapter
 
 /**
  * A convenience class to extend when you only want to OnItemChildClickListener for a subset
@@ -9,21 +9,21 @@ import android.widget.SimpleAdapter
  * Created by DengBo on 16/03/2018.
  */
 abstract class OnItemChildClickListener: SimpleClickListener() {
-    fun onItemClick(adapter: SimpleAdapter, view: View, position: Int) {
+    override fun onItemClick(adapter: BaseAdapter<*, *>, view: View, position: Int) {
 
     }
 
-    fun onItemLongClick(adapter: SimpleAdapter, view: View, position: Int) {
+    override fun onItemLongClick(adapter: BaseAdapter<*, *>, view: View, position: Int) {
 
     }
 
-    fun onItemChildClick(adapter: SimpleAdapter, view: View, position: Int) {
+    override fun onItemChildClick(adapter: BaseAdapter<*, *>, view: View, position: Int) {
         onSimpleItemChildClick(adapter, view, position)
     }
 
-    fun onItemChildLongClick(adapter: SimpleAdapter, view: View, position: Int) {
+    override fun onItemChildLongClick(adapter: BaseAdapter<*, *>, view: View, position: Int) {
 
     }
 
-    abstract fun onSimpleItemChildClick(adapter: SimpleAdapter, view: View, position: Int)
+    abstract fun onSimpleItemChildClick(adapter: BaseAdapter<*, *>, view: View, position: Int)
 }

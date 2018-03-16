@@ -909,7 +909,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
      * @param view view
      * @return new ViewHolder
      */
-    protected fun createBaseViewHolder(view: View): K {
+    protected open fun createBaseViewHolder(view: View): K {
         var temp: Class<*>? = javaClass
         var z: Class<*>? = null
         while (z == null && null != temp) {
@@ -1385,7 +1385,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
      * hierarchy
      * @return view will be return
      */
-    protected fun getItemView(@LayoutRes layoutResId: Int, parent: ViewGroup): View {
+    protected open fun getItemView(@LayoutRes layoutResId: Int, parent: ViewGroup): View {
         return if (null != mLayoutInflater)
             mLayoutInflater!!.inflate(layoutResId, parent, false)
         else

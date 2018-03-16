@@ -8,6 +8,10 @@ package com.android.db.multirecycleviewadapter.entity
 
 abstract class AbstractExpandable<T>: IExpandable<T> {
 
+    override var expandable: Boolean = false
+
+    override var subItems: MutableList<T> = mutableListOf()
+
     fun hasSubItem(): Boolean {
         return subItems.isNotEmpty()
     }

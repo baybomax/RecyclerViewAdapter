@@ -1,7 +1,7 @@
 package com.android.db.multirecycleviewadapter.listener
 
 import android.view.View
-import android.widget.SimpleAdapter
+import com.android.db.multirecycleviewadapter.BaseAdapter
 
 /**
  * Item click listener
@@ -14,21 +14,22 @@ import android.widget.SimpleAdapter
  * Created by DengBo on 16/03/2018.
  */
 abstract class OnItemClickListener: SimpleClickListener() {
-    fun onItemClick(adapter: SimpleAdapter, view: View, position: Int) {
+
+    override fun onItemClick(adapter: BaseAdapter<*, *>, view: View, position: Int) {
         onSimpleItemClick(adapter, view, position)
     }
 
-    fun onItemLongClick(adapter: SimpleAdapter, view: View, position: Int) {
+    override fun onItemLongClick(adapter: BaseAdapter<*, *>, view: View, position: Int) {
 
     }
 
-    fun onItemChildClick(adapter: SimpleAdapter, view: View, position: Int) {
+    override fun onItemChildClick(adapter: BaseAdapter<*, *>, view: View, position: Int) {
 
     }
 
-    fun onItemChildLongClick(adapter: SimpleAdapter, view: View, position: Int) {
+    override fun onItemChildLongClick(adapter: BaseAdapter<*, *>, view: View, position: Int) {
 
     }
 
-    abstract fun onSimpleItemClick(adapter: SimpleAdapter, view: View, position: Int)
+    abstract fun onSimpleItemClick(adapter: BaseAdapter<*, *>, view: View, position: Int)
 }
