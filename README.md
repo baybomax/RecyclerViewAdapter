@@ -4,14 +4,16 @@ A recycleView XAdapter repository includes animation/draggable/section/multi ite
 [![](https://www.jitpack.io/v/baybomax/MultiRecycleViewAdapter.svg)](https://www.jitpack.io/#baybomax/MultiRecycleViewAdapter)
 
 # How to use
+
+
 	repositories {
-    	...
-    	maven {
-        	url "https://jitpack.io"
-    	}
+		...
+		maven {
+			url "https://jitpack.io"
+		}
 	}
 
 	dependencies {
-    	...
-    	implementation 'com.github.baybomax:MultiRecycleViewAdapter:1.3.1'
+		...
+		implementation 'com.github.baybomax:MultiRecycleViewAdapter:1.3.1'
 	}
