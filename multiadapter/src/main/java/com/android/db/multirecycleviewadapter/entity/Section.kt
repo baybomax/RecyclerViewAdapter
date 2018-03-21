@@ -8,18 +8,11 @@ import java.io.Serializable
  * Created by DengBo on 15/03/2018.
  */
 
-abstract class Section<T, H>(): Serializable {
-
-    var entity: T? = null
-
-    var header: H? = null
+abstract class Section<out T, out H>(val header: H? = null,
+                                     val entity: T? = null): Serializable {
 
     var isHeader: Boolean = false
+        private set
         get() = null != header
-
-    constructor(header: H? = null, entity: T? = null) : this() {
-        this.header = header
-        this.entity = entity
-    }
 
 }

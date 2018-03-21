@@ -5,7 +5,7 @@ import android.support.annotation.LayoutRes
 import android.util.SparseIntArray
 import android.view.ViewGroup
 import com.android.db.multirecycleviewadapter.entity.IExpandable
-import com.android.db.multirecycleviewadapter.entity.MultiItem
+import com.android.db.multirecycleviewadapter.entity.MultiType
 
 /**
  * Base multi item adapter
@@ -13,7 +13,7 @@ import com.android.db.multirecycleviewadapter.entity.MultiItem
  * Created by DengBo on 16/03/2018.
  */
 
-abstract class BaseMultiItemAdapter<T: MultiItem, K: BaseViewHolder>
+abstract class BaseMultiTypeAdapter<T: MultiType, K: BaseViewHolder>
 /**
  * Same as QuickAdapter#QuickAdapter(Context,int) but with
  * some initialization data.

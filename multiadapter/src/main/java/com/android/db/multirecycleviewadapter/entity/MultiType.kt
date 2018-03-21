@@ -6,7 +6,7 @@ package com.android.db.multirecycleviewadapter.entity
  * Created by DengBo on 15/03/2018.
  */
 
-interface MultiItem {
+interface MultiType {
 
     /**
      * The type of item
