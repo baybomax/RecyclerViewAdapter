@@ -19,7 +19,7 @@ import java.util.*
 abstract class BaseItemDraggableAdapter<T, K: BaseViewHolder>: BaseAdapter<T, K> {
 
     companion object {
-        private val NO_TOGGLE_VIEW = 0
+        private const val NO_TOGGLE_VIEW = 0
     }
 
     protected var mToggleViewId = NO_TOGGLE_VIEW
@@ -48,8 +48,8 @@ abstract class BaseItemDraggableAdapter<T, K: BaseViewHolder>: BaseAdapter<T, K>
         val viewType = holder.itemViewType
 
         if (mItemTouchHelper != null && itemDragEnabled
-                && viewType != LOADING_VIEW && viewType != HEADER_VIEW
-                && viewType != EMPTY_VIEW && viewType != FOOTER_VIEW) {
+                && viewType != TYPE_LOAD_MORE_VIEW && viewType != TYPE_HEADER_VIEW
+                && viewType != TYPE_EMPTY_VIEW && viewType != TYPE_FOOTER_VIEW) {
             if (mToggleViewId != NO_TOGGLE_VIEW) {
                 val toggleView = holder.getView<View>(mToggleViewId)
                 if (toggleView != null) {
@@ -169,7 +169,7 @@ abstract class BaseItemDraggableAdapter<T, K: BaseViewHolder>: BaseAdapter<T, K>
     }
 
     fun getViewHolderPosition(viewHolder: RecyclerView.ViewHolder): Int {
-        return viewHolder.adapterPosition - getHeaderLayoutCount()
+        return viewHolder.adapterPosition - headerLayoutCount
     }
 
     fun onItemDragStart(viewHolder: RecyclerView.ViewHolder) {
@@ -185,11 +185,11 @@ abstract class BaseItemDraggableAdapter<T, K: BaseViewHolder>: BaseAdapter<T, K>
         if (inRange(from) && inRange(to)) {
             if (from < to) {
                 for (i in from until to) {
-                    Collections.swap(mData, i, i + 1)
+                    Collections.swap(dataSrc, i, i + 1)
                 }
             } else {
                 for (i in from downTo to + 1) {
-                    Collections.swap(mData, i, i - 1)
+                    Collections.swap(dataSrc, i, i - 1)
                 }
             }
             notifyItemMoved(source.adapterPosition, target.adapterPosition)
@@ -230,7 +230,7 @@ abstract class BaseItemDraggableAdapter<T, K: BaseViewHolder>: BaseAdapter<T, K>
         val pos = getViewHolderPosition(viewHolder)
 
         if (inRange(pos)) {
-            mData.removeAt(pos)
+            dataSrc.removeAt(pos)
             notifyItemRemoved(viewHolder.adapterPosition)
         }
     }
@@ -242,6 +242,6 @@ abstract class BaseItemDraggableAdapter<T, K: BaseViewHolder>: BaseAdapter<T, K>
     }
 
     private fun inRange(position: Int): Boolean {
-        return position >= 0 && position < mData.size
+        return position >= 0 && position < dataSrc.size
     }
 }

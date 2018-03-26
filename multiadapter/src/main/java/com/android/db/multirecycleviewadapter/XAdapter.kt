@@ -10,15 +10,15 @@ import android.support.v7.widget.RecyclerView
 
 abstract class XAdapter<T, R: XViewHolder>: RecyclerView.Adapter<R>() {
 
-    open var mData = mutableListOf<T>()
+    open var dataSrc = mutableListOf<T>()
 
     /**
      * NotifyDataSetChanged when load more data
      *
      * @param _data more data
      */
-    open fun notifyDataSetLoadMore(_data: List<T>) {
-        mData.addAll(_data)
+    protected open fun notifyDataSetLoadMore(_data: List<T>) {
+        dataSrc.addAll(_data)
         notifyDataSetChanged()
     }
 
@@ -27,14 +27,14 @@ abstract class XAdapter<T, R: XViewHolder>: RecyclerView.Adapter<R>() {
      *
      * @param _data refresh data
      */
-    open fun notifyDataSetRefresh(_data: List<T>) {
-        mData.clear()
-        mData.addAll(_data)
+    protected open fun notifyDataSetRefresh(_data: List<T>) {
+        dataSrc.clear()
+        dataSrc.addAll(_data)
         notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-        return mData.size
+        return dataSrc.size
     }
 
 }

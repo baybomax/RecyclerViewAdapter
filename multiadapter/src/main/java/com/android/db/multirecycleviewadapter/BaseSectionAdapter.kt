@@ -27,7 +27,7 @@ abstract class BaseSectionAdapter<T: Section<*, *>, K: BaseViewHolder>
     protected var mSectionHeadResId: Int = sectionHeadResId
 
     override fun getDefItemViewType(position: Int): Int {
-        return if (mData[position].isHeader) SECTION_HEADER_VIEW else 0
+        return if (dataSrc[position].isHeader) SECTION_HEADER_VIEW else 0
     }
 
     override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): K {
@@ -45,7 +45,7 @@ abstract class BaseSectionAdapter<T: Section<*, *>, K: BaseViewHolder>
         when (holder.itemViewType) {
             SECTION_HEADER_VIEW -> {
                 setFullSpan(holder)
-                convertHead(holder, getItem(position - getHeaderLayoutCount()))
+                convertHead(holder, get(position - headerLayoutCount))
             }
             else -> super.onBindViewHolder(holder, position)
         }

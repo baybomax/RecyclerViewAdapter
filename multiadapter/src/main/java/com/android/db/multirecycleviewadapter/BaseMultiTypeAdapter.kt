@@ -28,13 +28,13 @@ abstract class BaseMultiTypeAdapter<T: MultiType, K: BaseViewHolder>
     private var layouts: SparseIntArray? = null
 
     companion object {
-        private val DEFAULT_VIEW_TYPE = -0xff
-        val TYPE_NOT_FOUND = -404
+        private const val DEFAULT_VIEW_TYPE = -0xff
+        const val TYPE_NOT_FOUND = -404
     }
 
     override fun getDefItemViewType(position: Int): Int {
-        return if (position >= 0 && position < mData.size) {
-            mData[position].itemType
+        return if (position >= 0 && position < dataSrc.size) {
+            dataSrc[position].itemType
         } else DEFAULT_VIEW_TYPE
     }
 
@@ -57,11 +57,10 @@ abstract class BaseMultiTypeAdapter<T: MultiType, K: BaseViewHolder>
         layouts?.put(type, layoutResId)
     }
 
-
     override fun remove(@IntRange(from = 0L) position: Int) {
-        if (position < 0 || position >= mData.size) return
+        if (position < 0 || position >= dataSrc.size) return
 
-        val entity = mData[position]
+        val entity = dataSrc[position]
         if (entity is IExpandable<*>) {
             removeAllChild(entity as IExpandable<*>, position)
         }
@@ -84,7 +83,7 @@ abstract class BaseMultiTypeAdapter<T: MultiType, K: BaseViewHolder>
     protected fun removeDataFromParent(child: T) {
         val position = getParentPosition(child)
         if (position >= 0) {
-            val parent = mData[position] as IExpandable<*>
+            val parent = dataSrc[position] as IExpandable<*>
             parent.subItems.remove(child)
         }
     }
