@@ -6,7 +6,7 @@ package com.android.db.multirecycleviewadapter.listener
  * Created by DengBo on 15/03/2018.
  */
 
-interface RequestLoadMoreListener {
+interface LoadMoreRequestListener {
 
     /**
      * Load more

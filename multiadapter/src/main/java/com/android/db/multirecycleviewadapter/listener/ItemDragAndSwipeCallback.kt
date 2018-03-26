@@ -171,8 +171,8 @@ class ItemDragAndSwipeCallback(private val mAdapter: BaseItemDraggableAdapter<*,
 
     private fun isViewCreateByAdapter(viewHolder: RecyclerView.ViewHolder?): Boolean {
         val type = viewHolder?.itemViewType
-        return (type == BaseAdapter.HEADER_VIEW || type == BaseAdapter.LOADING_VIEW
-                || type == BaseAdapter.FOOTER_VIEW || type == BaseAdapter.EMPTY_VIEW)
+        return (type == BaseAdapter.TYPE_HEADER_VIEW || type == BaseAdapter.TYPE_LOAD_MORE_VIEW
+                || type == BaseAdapter.TYPE_FOOTER_VIEW || type == BaseAdapter.TYPE_EMPTY_VIEW)
     }
 
 }

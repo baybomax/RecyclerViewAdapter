@@ -8,12 +8,8 @@ import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import com.android.db.multirecycleviewadapter.BaseAdapter
-import com.android.db.multirecycleviewadapter.BaseAdapter.Companion.EMPTY_VIEW
-import com.android.db.multirecycleviewadapter.BaseAdapter.Companion.FOOTER_VIEW
-import com.android.db.multirecycleviewadapter.BaseAdapter.Companion.HEADER_VIEW
-import com.android.db.multirecycleviewadapter.BaseAdapter.Companion.LOADING_VIEW
-import com.android.db.multirecycleviewadapter.XViewHolder
 import com.android.db.multirecycleviewadapter.BaseViewHolder
+import com.android.db.multirecycleviewadapter.XViewHolder
 
 /**
  *
@@ -104,7 +100,7 @@ abstract class SimpleClickListener: RecyclerView.OnItemTouchListener {
                                 setPressViewHotSpot(e, childView)
                                 childView.isPressed = true
                                 baseAdapter?.apply {
-                                    onItemChildClick(this, childView, vh.layoutPosition - getHeaderLayoutCount())
+                                    onItemChildClick(this, childView, vh.layoutPosition - headerLayoutCount)
                                 }
                                 resetPressedView(childView)
                                 return true
@@ -121,7 +117,7 @@ abstract class SimpleClickListener: RecyclerView.OnItemTouchListener {
                     }
                     baseAdapter?.apply {
                         if (null != pressedView) {
-                            onItemChildClick(this, pressedView, vh.layoutPosition - getHeaderLayoutCount())
+                            onItemChildClick(this, pressedView, vh.layoutPosition - headerLayoutCount)
                         }
                     }
                 } else {
@@ -135,7 +131,7 @@ abstract class SimpleClickListener: RecyclerView.OnItemTouchListener {
                     }
                     baseAdapter?.apply {
                         if (null != pressedView) {
-                            onItemChildClick(this, pressedView, vh.layoutPosition - getHeaderLayoutCount())
+                            onItemChildClick(this, pressedView, vh.layoutPosition - headerLayoutCount)
                         }
                     }
                 }
@@ -175,7 +171,7 @@ abstract class SimpleClickListener: RecyclerView.OnItemTouchListener {
                                 }
                                 setPressViewHotSpot(e, childView)
                                 baseAdapter?.apply {
-                                    onItemChildLongClick(this, childView, vh.layoutPosition - getHeaderLayoutCount())
+                                    onItemChildLongClick(this, childView, vh.layoutPosition - headerLayoutCount)
                                 }
                                 childView.isPressed = true
                                 mIsShowPress = true
@@ -187,7 +183,7 @@ abstract class SimpleClickListener: RecyclerView.OnItemTouchListener {
                     if (!isChildLongClick) {
                         baseAdapter?.apply {
                             if (null != mPressedView) {
-                                onItemChildLongClick(this, mPressedView!!, vh.layoutPosition - getHeaderLayoutCount())
+                                onItemChildLongClick(this, mPressedView!!, vh.layoutPosition - headerLayoutCount)
                             }
                         }
                         setPressViewHotSpot(e, mPressedView)
@@ -272,11 +268,13 @@ abstract class SimpleClickListener: RecyclerView.OnItemTouchListener {
             }
         }
         val type = baseAdapter?.getItemViewType(position)
-        return type == EMPTY_VIEW || type == HEADER_VIEW || type == FOOTER_VIEW || type == LOADING_VIEW
+        return type == BaseAdapter.TYPE_EMPTY_VIEW || type == BaseAdapter.TYPE_HEADER_VIEW
+                || type == BaseAdapter.TYPE_FOOTER_VIEW || type == BaseAdapter.TYPE_LOAD_MORE_VIEW
     }
 
     private fun isHeaderOrFooterView(type: Int): Boolean {
-        return type == EMPTY_VIEW || type == HEADER_VIEW || type == FOOTER_VIEW || type == LOADING_VIEW
+        return type == BaseAdapter.TYPE_EMPTY_VIEW || type == BaseAdapter.TYPE_HEADER_VIEW
+                || type == BaseAdapter.TYPE_FOOTER_VIEW || type == BaseAdapter.TYPE_LOAD_MORE_VIEW
     }
 
 }
