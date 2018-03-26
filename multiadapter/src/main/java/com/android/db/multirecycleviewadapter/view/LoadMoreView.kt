@@ -13,87 +13,74 @@ import com.android.db.multirecycleviewadapter.BaseViewHolder
 abstract class LoadMoreView {
 
     companion object {
-        val STATUS_DEFAULT = 1
-        val STATUS_LOADING = 2
-        val STATUS_FAIL = 3
-        val STATUS_END = 4
+        const val STATUS_DEFAULT = 1
+        const val STATUS_LOADING = 2
+        const val STATUS_FAIL    = 3
+        const val STATUS_END     = 4
     }
 
-    private var mLoadMoreStatus = STATUS_DEFAULT
-    private var mLoadMoreEndGone = false
+    var loadMoreStatus = STATUS_DEFAULT
 
-    fun setLoadMoreStatus(loadMoreStatus: Int) {
-        this.mLoadMoreStatus = loadMoreStatus
-    }
+    var loadFailGone = false
+        get() = if (getLoadFailViewId() <= 0) true else field
 
-    fun getLoadMoreStatus(): Int {
-        return mLoadMoreStatus
-    }
+    var loadEndGone = false
+        get() = if (getLoadEndViewId() <= 0) true else field
 
+    /**
+     * The method to convert view with this instance state.
+     * @param holder
+     */
     fun convert(holder: BaseViewHolder) {
-        when (mLoadMoreStatus) {
+        when (loadMoreStatus) {
             STATUS_LOADING -> {
-                visibleLoading(holder, true)
-                visibleLoadFail(holder, false)
-                visibleLoadEnd(holder, false)
+                setViewVisibleOrGone(holder, true, false, false)
             }
             STATUS_FAIL -> {
-                visibleLoading(holder, false)
-                visibleLoadFail(holder, true)
-                visibleLoadEnd(holder, false)
+                setViewVisibleOrGone(holder, false, true, false)
             }
             STATUS_END -> {
-                visibleLoading(holder, false)
-                visibleLoadFail(holder, false)
-                visibleLoadEnd(holder, true)
+                setViewVisibleOrGone(holder, false, false, true)
             }
             STATUS_DEFAULT -> {
-                visibleLoading(holder, false)
-                visibleLoadFail(holder, false)
-                visibleLoadEnd(holder, false)
+                setViewVisibleOrGone(holder, false, false, false)
             }
         }
-    }
-
-    private fun visibleLoading(holder: BaseViewHolder, visible: Boolean) {
-        holder.setViewVisibleOrGone(getLoadingViewId(), visible)
-    }
-
-    private fun visibleLoadFail(holder: BaseViewHolder, visible: Boolean) {
-        holder.setViewVisibleOrGone(getLoadFailViewId(), visible)
-    }
-
-    private fun visibleLoadEnd(holder: BaseViewHolder, visible: Boolean) {
-        val loadEndViewId = getLoadEndViewId()
-        if (loadEndViewId != 0) {
-            holder.setViewVisibleOrGone(loadEndViewId, visible)
-        }
-    }
-
-    fun setLoadMoreEndGone(loadMoreEndGone: Boolean) {
-        this.mLoadMoreEndGone = loadMoreEndGone
-    }
-
-    fun isLoadEndMoreGone(): Boolean {
-        return if (getLoadEndViewId() == 0) {
-            true
-        } else mLoadMoreEndGone
     }
 
     /**
-     * No more data is hidden
-     *
-     * @return true for no more data hidden load more
+     * Set the visibility of load more view.
+     * ###
+     * @param holder [BaseViewHolder]
+     * @param loadingVisible TRUE/FALSE, The visibility of loading view.
+     * @param loadFailVisible TRUE/FALSE, The visibility of loading fail view.
+     * @param loadEndVisible TRUE/FALSE, The visibility of loading end view.
      */
-    @Deprecated("Use {@link BaseAdapter#loadMoreEnd(boolean)} instead.")
-    fun isLoadEndGone(): Boolean {
-        return mLoadMoreEndGone
+    private fun setViewVisibleOrGone(holder: BaseViewHolder,
+                               loadingVisible: Boolean,
+                               loadFailVisible: Boolean,
+                               loadEndVisible: Boolean) {
+        getLoadingViewId().let {
+            if (it > 0) {
+                holder.setViewVisibleOrGone(it, loadingVisible)
+            }
+        }
+        getLoadFailViewId().let {
+            if (it > 0) {
+                holder.setViewVisibleOrGone(it, loadFailVisible)
+            }
+        }
+        getLoadEndViewId().let {
+            if (it > 0) {
+                holder.setViewVisibleOrGone(it, loadEndVisible)
+            }
+        }
     }
 
     /**
      * load more layout
      *
-     * @return
+     * @return the load more layout id
      */
     @LayoutRes
     abstract fun getLayoutId(): Int
@@ -101,7 +88,9 @@ abstract class LoadMoreView {
     /**
      * loading view
      *
-     * @return
+     * should be view id.
+     *
+     * @return the loading view id
      */
     @IdRes
     protected abstract fun getLoadingViewId(): Int
@@ -109,15 +98,21 @@ abstract class LoadMoreView {
     /**
      * load fail view
      *
-     * @return
+     * if you not need a load fail view, you can give
+     * a negative value or zero
+     *
+     * @return negative/zero value or view id.
      */
     @IdRes
     protected abstract fun getLoadFailViewId(): Int
 
     /**
-     * load end view, you can return 0
+     * load end view
      *
-     * @return
+     * if you not need a load end view, you can give
+     * a negative value or zero
+     *
+     * @return negative/zero value or view id.
      */
     @IdRes
     protected abstract fun getLoadEndViewId(): Int
