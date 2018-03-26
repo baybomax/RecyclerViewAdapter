@@ -15,5 +15,5 @@ A recycleView XAdapter repository includes animation/draggable/section/multi ite
 
 	dependencies {
 		...
-		implementation 'com.github.baybomax:MultiRecycleViewAdapter:1.3.1'
+		implementation 'com.github.baybomax:MultiRecycleViewAdapter:1.4.0'
 	}
