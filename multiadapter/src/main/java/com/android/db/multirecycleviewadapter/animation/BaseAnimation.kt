@@ -2,6 +2,7 @@ package com.android.db.multirecycleviewadapter.animation
 
 import android.animation.Animator
 import android.view.View
+import android.view.animation.LinearInterpolator
 
 /**
  * Base animation interface
@@ -10,6 +11,10 @@ import android.view.View
  */
 
 interface BaseAnimation {
+
+    val duration: Long
+
+    val interpolator: LinearInterpolator
 
     /**
      * Return a array of animators
