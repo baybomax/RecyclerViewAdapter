@@ -12,8 +12,8 @@ import android.util.SparseIntArray
 abstract class MultiTypeDelegate<T>() {
 
     companion object {
-        private val DEFAULT_VIEW_TYPE = -0xff
-        private val TYPE_NOT_FOUND = -404
+        private const val DEFAULT_VIEW_TYPE = -0xff
+        private const val TYPE_NOT_FOUND = -404
     }
     private lateinit var layouts: SparseIntArray
     private var autoMode: Boolean = false
@@ -23,6 +23,12 @@ abstract class MultiTypeDelegate<T>() {
         this.layouts = layouts
     }
 
+    /**
+     * Return the specify pos itemViewType/
+     *
+     * @param data List<T>
+     * @param position Int
+     */
     fun getDefItemViewType(data: List<T>, position: Int): Int {
         val item = if (position >= 0 && position < data.size) data[position] else null
         return if (item != null) getItemType(item) else DEFAULT_VIEW_TYPE
@@ -36,10 +42,21 @@ abstract class MultiTypeDelegate<T>() {
      */
     protected abstract fun getItemType(t: T): Int
 
+    /**
+     * Return the specify layout id of viewType.
+     *
+     * @param viewType type 'Int'
+     */
     fun getLayoutId(viewType: Int): Int {
         return layouts.get(viewType, TYPE_NOT_FOUND)
     }
 
+    /**
+     * Add layout id with specify type 'Int'
+     *
+     * #
+     * @param
+     */
     private fun addItemType(type: Int, @LayoutRes layoutResId: Int) {
         layouts.put(type, layoutResId)
     }
