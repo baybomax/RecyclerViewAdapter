@@ -44,7 +44,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
         const val TYPE_LOAD_MORE_VIEW   = 0x00000555
     }
 
-    protected open var loadMoreView: LoadMoreView = SimpleLoadMoreView()
+    open var loadMoreView: LoadMoreView = SimpleLoadMoreView()
     private var loadMoreViewRequestListener: LoadMoreRequestListener? = null
     private var isLoadViewNextEnable = false
     var isLoadMoreViewLoading = false
@@ -155,7 +155,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
         private set
         get() {
             emptyViewLayout?.apply {
-                if (childCount > 0 && dataSrc.isNotEmpty()) {
+                if (childCount > 0 && dataSrc.isEmpty()) {
                     return 1
                 }
             }
@@ -219,7 +219,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
      * @param recyclerView The recyclerView to bind.
      * @param loadMoreRequestListener The listener.
      */
-    fun setOnLoadMoreRequestListener(recyclerView: RecyclerView, loadMoreRequestListener: LoadMoreRequestListener) {
+    fun setLoadMoreRequestListener(recyclerView: RecyclerView, loadMoreRequestListener: LoadMoreRequestListener) {
         loadMoreViewRequestListener = loadMoreRequestListener
 
         isLoadViewNextEnable = true
@@ -549,10 +549,13 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
             else -> {
                 baseViewHolder = onCreateDefViewHolder(parent, viewType)
                 baseViewHolder.itemView?.apply {
-                    onItemClickListener?.onItemClick(this@BaseAdapter,
-                            this, baseViewHolder.layoutPosition - headerLayoutCount)
-                    onItemLongClickListener?.onItemLongClick(this@BaseAdapter,
-                            this, baseViewHolder.layoutPosition - headerLayoutCount)
+                    setOnClickListener {
+                        onItemClickListener?.onItemClick(this@BaseAdapter, it, baseViewHolder.layoutPosition - headerLayoutCount)
+                    }
+                    setOnLongClickListener {
+                        onItemLongClickListener?.onItemLongClick(this@BaseAdapter, it, baseViewHolder.layoutPosition - headerLayoutCount)
+                        true
+                    }
                 }
             }
         }
@@ -596,14 +599,14 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
      *
      * @param holder
      */
-    override fun onViewAttachedToWindow(holder: K?) {
+    override fun onViewAttachedToWindow(holder: K) {
         super.onViewAttachedToWindow(holder)
-        val type = holder?.itemViewType
+        val type = holder.itemViewType
         if (type == TYPE_EMPTY_VIEW || type == TYPE_HEADER_VIEW
                 || type == TYPE_FOOTER_VIEW || type == TYPE_LOAD_MORE_VIEW) {
             setFullSpan(holder)
         } else {
-            holder?.let {
+            holder.let {
                 attachAnimation(holder)
             }
         }
@@ -627,9 +630,9 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
     /**
      * @Inherit
      */
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView?) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
-        val manager = recyclerView?.layoutManager
+        val manager = recyclerView.layoutManager
         if (manager is GridLayoutManager) {
             manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
@@ -638,7 +641,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
                     if (type == TYPE_FOOTER_VIEW && isFooterViewAsFlow) { return 1 }
 
                     spanSizeLookup?.apply {
-                        if (isFixedViewType(type))
+                        return if (isFixedViewType(type))
                             manager.spanCount
                         else
                             getSpanSize(manager, position - headerLayoutCount)
@@ -828,9 +831,9 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
                 index = childCount
             }
             addView(header, index)
-            if (childCount > 0) {
+            if (childCount == 1) {
                 val position = headerLayoutPosition
-                if (position >= 0) {
+                if (position != -1) {
                     notifyItemInserted(position)
                 }
             }
@@ -906,7 +909,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
                 index = childCount
             }
             addView(footer, index)
-            if (childCount > 0) {
+            if (childCount == 1) {
                 val position = footerLayoutPosition
                 if (position != -1) {
                     notifyItemInserted(position)
@@ -1027,10 +1030,8 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
     fun setEmptyView(emptyView: View) {
         var insert = false
         if (emptyViewLayout == null) {
-            emptyViewLayout= FrameLayout(emptyView.context)
-            val layoutParams = RecyclerView.LayoutParams(
-                    RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.MATCH_PARENT)
+            emptyViewLayout = FrameLayout(emptyView.context)
+            val layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.MATCH_PARENT)
             val lp = emptyView.layoutParams
             layoutParams.width = lp.width
             layoutParams.height = lp.height
@@ -1040,7 +1041,7 @@ abstract class BaseAdapter<T, K: BaseViewHolder>(): XAdapter<T, K>(), ViewHolder
         emptyViewLayout?.removeAllViews()
         emptyViewLayout?.addView(emptyView)
         if (insert) {
-            if (emptyViewCount > 0) {
+            if (emptyViewCount == 1) {
                 var position = 0
                 if (isHeaderEnableWhenEmpty && headerLayoutCount > 0) {
                     position++
