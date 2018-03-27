@@ -104,3 +104,11 @@ Drag/Swipe:
                                    configs please see the code in 'app/ItemDragAndSwipeUseActivity'.
 				   If you need item swipe with menu, you can have a look with my another libray.
 [![](https://www.jitpack.io/v/baybomax/SwipeMenuLayout.svg)](https://www.jitpack.io/#baybomax/SwipeMenuLayout)
+
+# Example
+	Please clone to local, the example case in app moudle may satisfy your need, and the library named 'multiadapter'
+	you can use immediately.
+	
+# Concluding
+	If you like, you can have a star, or any questions please give me issues.
+	Also can inquire into kotlin or others with me if you interest in what.
