@@ -102,3 +102,5 @@ Drag/Swipe:
     1.'BaseItemDraggableAdapter' - Extends it to implement is ok, if need, you can set 'OnItemDragListener'
                                    or 'OnItemSwipeListener' with 'ItemDragAndSwipeCallback', need other
                                    configs please see the code in 'app/ItemDragAndSwipeUseActivity'.
+				   If you need item swipe with menu, you can have a look with my another libray.
+[![](https://www.jitpack.io/v/baybomax/SwipeMenuLayout.svg)](https://www.jitpack.io/#baybomax/SwipeMenuLayout)
