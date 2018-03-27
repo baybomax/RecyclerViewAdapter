@@ -1,1 +1,1 @@
-include ':app', ':multiadapter'
+include ':app', ':multiadapter', ':material-spinner-1.0.5'
