@@ -6,11 +6,23 @@ A recycleView XAdapter repository includes animation/draggable/section/multi ite
 # How to use
 
 
-	repositories {
-		...
-		maven {
-			url "https://jitpack.io"
+	//all projects
+	allprojects {
+		repositories {
+			...
+			jcenter()
+			maven { url "https://jitpack.io" }
 		}
+	}
+
+	or
+	
+	//application
+	repositories {
+    	...
+    	maven {
+			url "https://jitpack.io"
+    	}
 	}
 
 	dependencies {
