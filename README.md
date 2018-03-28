@@ -6,7 +6,7 @@ A recycleView XAdapter repository includes animation/draggable/section/multi ite
 # How to use
 
 
-	//all projects
+	//project
 	allprojects {
 		repositories {
 			...
